@@ -1,0 +1,612 @@
+================================================================================
+                    Building a Todo App - Python & JS Complete Guide
+================================================================================
+
+
+================================================================================
+Overview
+================================================================================
+
+This course teaches how to build a complete Todo application from scratch
+using Flask (Python) and vanilla JavaScript. Students will learn Flask basics,
+database setup, user authentication, CRUD operations, protected routes,
+and admin functionality step-by-step.
+
+Target Audience: Beginners who want to learn full-stack web development
+Prerequisites: Basic Python, Basic JavaScript, HTML/CSS fundamentals
+Total Parts: 8 modules building a complete Todo application
+
+
+================================================================================
+Features
+================================================================================
+
+- 8 Progressive modules building complexity step-by-step
+- Each module focuses on ONE concept
+- Flask backend with SQLAlchemy database
+- Vanilla JavaScript frontend with Bootstrap 5
+- JWT token-based authentication
+- Role-based access control (Admin/User)
+- Password hashing with Werkzeug
+- Detailed comments explaining every concept
+- Each part has complete working code
+- Helper functions used instead of decorators (for easier learning)
+
+
+================================================================================
+================================================================================
+                         Part-1: Hello Flask
+================================================================================
+================================================================================
+
+Overview
+--------
+Learn the foundation of Flask web development. Understand how to create a
+Flask application, define routes, and render HTML templates. This is the
+starting point for building any Flask web application.
+
+Features
+--------
+- Creating a Flask application
+- Defining routes (URLs)
+- Rendering HTML templates
+- Running the development server
+- Understanding debug mode
+
+Instructions
+------------
+Navigate to the part-1-hello-flask folder in your terminal.
+
+Create virtual environment: python -m venv venv
+
+Activate it: venv\Scripts\activate (Windows) or source venv/bin/activate (Mac/Linux)
+
+Install dependencies: pip install -r requirements.txt
+
+Run the server: python app.py
+
+Open http://127.0.0.1:5000 in your browser.
+
+Key Learnings
+-------------
+Flask App: Creating application with Flask(__name__).
+
+Routes: Using @app.route('/') to map URLs to functions.
+
+render_template(): Rendering HTML files from templates folder.
+
+debug=True: Auto-reload server when code changes.
+
+URL Mapping: Each route connects a URL to a Python function.
+
+Activity Instructions
+---------------------
+Open part-1-hello-flask folder and complete these exercises.
+
+Activity 1: Add a new route @app.route('/services') and create services.html template.
+
+Activity 2: Change the port to 8080 using app.run(debug=True, port=8080).
+
+Activity 3: Create a route that returns plain text instead of HTML template.
+
+Activity 4: Create dynamic route @app.route('/hello/<name>') that greets by name.
+
+
+================================================================================
+================================================================================
+                         Part-2: Database Setup
+================================================================================
+================================================================================
+
+Overview
+--------
+Add persistent data storage using SQLite database with SQLAlchemy ORM.
+Learn how to create database models (tables), connect Flask to database,
+and perform basic database queries.
+
+Features
+--------
+- SQLAlchemy ORM integration
+- User and Todo models (tables)
+- Database initialization
+- Basic database queries
+- Test route to verify database
+
+Instructions
+------------
+Navigate to the part-2-database-setup folder.
+
+Create and activate virtual environment.
+
+Install dependencies: pip install -r requirements.txt
+
+Run the server: python app.py
+
+Visit http://127.0.0.1:5000/test-db to test database.
+
+Key Learnings
+-------------
+SQLAlchemy: ORM (Object Relational Mapper) to work with databases using Python.
+
+Database URI: 'sqlite:///todo.db' creates SQLite database file.
+
+Models: Python classes that represent database tables.
+
+db.Column(): Defining table columns with types (String, Integer, Boolean).
+
+db.relationship(): Creating relationships between tables (User has many Todos).
+
+db.session.add(): Adding new record to database session.
+
+db.session.commit(): Saving changes to database.
+
+Query Methods: .query.all(), .query.first(), .query.filter_by().
+
+Activity Instructions
+---------------------
+Open part-2-database-setup folder and complete these exercises.
+
+Activity 1: Add 'phone' field to User model, delete todo.db, restart app.
+
+Activity 2: Practice queries - User.query.all(), User.query.first(), User.query.count().
+
+Activity 3: Install "DB Browser for SQLite" and view the todo.db file.
+
+Activity 4: Modify test_db() to create 3 users with different todos.
+
+
+================================================================================
+================================================================================
+                         Part-3: User Registration
+================================================================================
+================================================================================
+
+Overview
+--------
+Build the user registration system. Learn how to create registration forms,
+receive POST requests with JSON data, validate input, and save users to
+database. Note: Password is stored as plain text here (fixed in Part 4).
+
+Features
+--------
+- Registration form page
+- POST request handling
+- JSON data parsing
+- Input validation
+- Duplicate email/username check
+- View all users page
+
+Instructions
+------------
+Navigate to the part-3-user-registration folder.
+
+Set up virtual environment and install dependencies.
+
+Run the server: python app.py
+
+Open http://127.0.0.1:5000/register to register a new user.
+
+Visit http://127.0.0.1:5000/users to see all registered users.
+
+Key Learnings
+-------------
+GET vs POST: GET retrieves data, POST sends data to server.
+
+request.get_json(): Parse JSON data from request body.
+
+Input Validation: Check if required fields are provided.
+
+Duplicate Check: Verify email/username doesn't already exist.
+
+HTTP Status Codes: 200 (OK), 201 (Created), 400 (Bad Request).
+
+jsonify(): Convert Python dict to JSON response.
+
+Security Note: Plain text passwords are dangerous (visible in /users page!).
+
+Activity Instructions
+---------------------
+Open part-3-user-registration folder and complete these exercises.
+
+Activity 1: Add password validation - minimum 6 characters.
+
+Activity 2: Add username validation using username.isalnum().
+
+Activity 3: Register a user and visit /users to see the security problem.
+
+Activity 4: Add email format validation - check for '@' symbol.
+
+
+================================================================================
+================================================================================
+                         Part-4: User Login
+================================================================================
+================================================================================
+
+Overview
+--------
+Implement secure user login with password hashing and JWT tokens.
+Learn how to hash passwords for secure storage, verify passwords on login,
+and generate JWT tokens for authentication.
+
+Features
+--------
+- Secure password hashing
+- Password verification
+- JWT token generation
+- Login API endpoint
+- Dashboard page after login
+- Token stored in localStorage
+
+Instructions
+------------
+Navigate to the part-4-user-login folder.
+
+Set up virtual environment and install dependencies.
+
+Run the server: python app.py
+
+Register a new user first, then login with same credentials.
+
+Check browser DevTools > Application > Local Storage for stored token.
+
+Key Learnings
+-------------
+Password Hashing: Using hash_password() to convert plain text to hash.
+
+Password Verification: Using verify_password() to check password against hash.
+
+JWT Token: JSON Web Token containing user_id and is_admin.
+
+create_token(): Generate JWT token on successful login.
+
+localStorage: Browser storage for keeping token on client side.
+
+401 Unauthorized: Response when credentials are invalid.
+
+Login Flow: Receive credentials -> Verify -> Generate token -> Return to client.
+
+Activity Instructions
+---------------------
+Open part-4-user-login folder and complete these exercises.
+
+Activity 1: Try logging in with wrong password and observe the error.
+
+Activity 2: Check the token in localStorage and decode it at jwt.io.
+
+Activity 3: Add 'remember_me' parameter - 30 day expiration if true, else 1 hour.
+
+Activity 4: Add login attempt logging to console.
+
+
+================================================================================
+================================================================================
+                         Part-5: Todo CRUD
+================================================================================
+================================================================================
+
+Overview
+--------
+Implement the core Todo functionality - Create, Read, Update, Delete operations.
+Learn RESTful API design and how to build CRUD endpoints. Note: This part
+passes user_id via URL (insecure) - fixed in Part 6.
+
+Features
+--------
+- Create new todo (POST)
+- Read all todos (GET)
+- Update todo (PUT)
+- Delete todo (DELETE)
+- Dashboard with todo list
+- Complete/incomplete toggle
+
+Instructions
+------------
+Navigate to the part-5-todo-crud folder.
+
+Set up virtual environment and install dependencies.
+
+Run the server: python app.py
+
+Login and go to dashboard to manage todos.
+
+Key Learnings
+-------------
+CRUD: Create, Read, Update, Delete - basic database operations.
+
+RESTful API: Using HTTP methods (GET, POST, PUT, DELETE) for operations.
+
+GET /api/todos: Retrieve all todos for a user.
+
+POST /api/todos: Create a new todo.
+
+PUT /api/todos/<id>: Update an existing todo.
+
+DELETE /api/todos/<id>: Remove a todo.
+
+URL Parameters: Extracting todo_id from URL path.
+
+Query Parameters: Getting user_id from ?user_id=1 (insecure method).
+
+Activity Instructions
+---------------------
+Open part-5-todo-crud folder and complete these exercises.
+
+Activity 1: Create, update, and delete todos from the dashboard.
+
+Activity 2: Try accessing another user's todos by changing user_id in URL.
+
+Activity 3: Add a 'priority' field to todos (high, medium, low).
+
+Activity 4: Add filtering - show only completed or pending todos.
+
+
+================================================================================
+================================================================================
+                         Part-6: Protected Routes
+================================================================================
+================================================================================
+
+Overview
+--------
+Secure the API endpoints so only authenticated users can access their own data.
+Learn how to validate JWT tokens and extract user information for protected
+routes. Uses helper function instead of decorator for easier understanding.
+
+Features
+--------
+- Token validation on every request
+- get_current_user() helper function
+- User can only access their own todos
+- Ownership verification
+- 401/403 error responses
+
+Instructions
+------------
+Navigate to the part-6-protected-routes folder.
+
+Set up virtual environment and install dependencies.
+
+Run the server: python app.py
+
+Login to get a token, then access todo endpoints.
+
+Try accessing without token to see 401 error.
+
+Key Learnings
+-------------
+Authorization Header: Sending token as "Bearer <token>" in request header.
+
+get_current_user(): Helper function that validates token and returns user.
+
+Token Extraction: Parsing token from "Bearer <token>" format.
+
+Token Validation: Decoding JWT and checking if valid/expired.
+
+Ownership Check: Verifying todo belongs to current user before update/delete.
+
+401 Unauthorized: No token or invalid token.
+
+403 Forbidden: Valid token but not authorized for this resource.
+
+Activity Instructions
+---------------------
+Open part-6-protected-routes folder and complete these exercises.
+
+Activity 1: Try accessing /api/todos without Authorization header.
+
+Activity 2: Try to update/delete another user's todo and observe 403 error.
+
+Activity 3: Add a /api/profile endpoint that returns current user's info.
+
+Activity 4: Add logging to see which user is making each request.
+
+
+================================================================================
+================================================================================
+                         Part-7: Admin Panel
+================================================================================
+================================================================================
+
+Overview
+--------
+Add admin functionality with role-based access control. Learn how to create
+admin-only endpoints, view all users, delete users, and see system statistics.
+Uses get_admin_user() helper for admin verification.
+
+Features
+--------
+- Admin dashboard page
+- View all users (admin only)
+- Delete users (admin only)
+- System statistics
+- View all todos (admin only)
+- Default admin user creation
+
+Instructions
+------------
+Navigate to the part-7-admin-panel folder.
+
+Set up virtual environment and install dependencies.
+
+Run the server: python app.py
+
+Login as admin (email: admin@example.com, password: admin123).
+
+Access /admin page to see admin panel.
+
+Key Learnings
+-------------
+User Roles: is_admin field distinguishes admin from regular users.
+
+get_admin_user(): Helper function that checks token AND admin status.
+
+Admin Endpoints: Routes only accessible by admin users.
+
+/api/admin/users: Get all users with their statistics.
+
+/api/admin/stats: Get system-wide statistics.
+
+/api/admin/todos: View all todos from all users.
+
+403 Forbidden: When non-admin tries to access admin endpoints.
+
+Default Admin: Creating admin user on first app startup.
+
+Activity Instructions
+---------------------
+Open part-7-admin-panel folder and complete these exercises.
+
+Activity 1: Login as regular user and try to access /api/admin/users.
+
+Activity 2: Login as admin and delete a regular user.
+
+Activity 3: Add an endpoint to promote a user to admin.
+
+Activity 4: Add an endpoint to view recent activity (last 10 todos created).
+
+
+================================================================================
+================================================================================
+                         Part-8: Homework
+================================================================================
+================================================================================
+
+Overview
+--------
+Practice project where students implement a new feature on their own.
+The suggested feature is adding a 'priority' field to todos (high, medium, low).
+This reinforces all concepts learned in previous parts.
+
+Features
+--------
+- Same structure as Part 6/7
+- Comments indicating where to add code
+- Suggested homework: Add priority feature
+- Practice full-stack development
+
+Instructions
+------------
+Navigate to the part-8-homework folder.
+
+Set up virtual environment and install dependencies.
+
+Run the server: python app.py
+
+Read the comments in app.py and models.py for guidance.
+
+Implement the priority feature step by step.
+
+Homework Steps
+--------------
+Step 1: In models.py, add 'priority' column to Todo model.
+
+Step 2: Delete todo.db to recreate tables with new column.
+
+Step 3: In app.py create_todo(), save priority from request data.
+
+Step 4: Update frontend to show priority selector and display priority.
+
+Step 5: Add filtering by priority (show only high priority todos).
+
+Activity Instructions
+---------------------
+Open part-8-homework folder and complete these exercises.
+
+Activity 1: Add priority field with default value 'medium'.
+
+Activity 2: Update the create_todo endpoint to accept priority.
+
+Activity 3: Update frontend to show priority with color coding.
+
+Activity 4: Add sorting - show high priority todos first.
+
+
+================================================================================
+                         Completion Checklist
+================================================================================
+
+[ ] Part-1: Hello Flask - 4 activities
+[ ] Part-2: Database Setup - 4 activities
+[ ] Part-3: User Registration - 4 activities
+[ ] Part-4: User Login - 4 activities
+[ ] Part-5: Todo CRUD - 4 activities
+[ ] Part-6: Protected Routes - 4 activities
+[ ] Part-7: Admin Panel - 4 activities
+[ ] Part-8: Homework - 4 activities
+
+
+================================================================================
+                         Learning Path
+================================================================================
+
+Part-1 (Hello Flask)      -->  Foundation - How Flask works
+Part-2 (Database Setup)   -->  Data persistence with SQLAlchemy
+Part-3 (User Registration) -->  Creating users and handling forms
+Part-4 (User Login)       -->  Authentication and JWT tokens
+Part-5 (Todo CRUD)        -->  Core app functionality
+Part-6 (Protected Routes) -->  Securing API endpoints
+Part-7 (Admin Panel)      -->  Role-based access control
+Part-8 (Homework)         -->  Practice and reinforce learning
+
+
+================================================================================
+                         Technologies Used
+================================================================================
+
+Backend Stack
+-------------
+- Flask 3.0.0 (Python web framework)
+- SQLite with SQLAlchemy ORM
+- PyJWT (JSON Web Tokens)
+- Werkzeug (Password hashing)
+- Flask-CORS (Cross-Origin Resource Sharing)
+
+Frontend Stack
+--------------
+- HTML5
+- JavaScript (Vanilla/ES6+)
+- Bootstrap 5
+- Fetch API
+- localStorage
+
+
+================================================================================
+                         Key Concepts Summary
+================================================================================
+
+Flask Basics
+------------
+- Flask(__name__) creates the application
+- @app.route() maps URLs to functions
+- render_template() renders HTML files
+- request.get_json() parses JSON from request body
+- jsonify() converts dict to JSON response
+
+Database (SQLAlchemy)
+---------------------
+- db.Model creates a table
+- db.Column() defines columns
+- db.session.add() adds records
+- db.session.commit() saves changes
+- Model.query.filter_by() searches records
+
+Authentication
+--------------
+- hash_password() securely stores passwords
+- verify_password() checks password on login
+- create_token() generates JWT token
+- get_current_user() validates token and returns user
+- Authorization header: "Bearer <token>"
+
+HTTP Status Codes
+-----------------
+- 200: OK (success)
+- 201: Created (new resource created)
+- 400: Bad Request (invalid input)
+- 401: Unauthorized (no token or invalid token)
+- 403: Forbidden (not allowed to access resource)
+- 404: Not Found (resource doesn't exist)
+
+
+================================================================================

@@ -1,0 +1,149 @@
+# =============================================================================
+# .gitignore - Files and folders to exclude from Git
+# =============================================================================
+# This file tells Git which files should NOT be tracked.
+# These are typically files that:
+# 1. Are generated automatically (can be recreated)
+# 2. Contain sensitive information (passwords, keys)
+# 3. Are specific to your computer (IDE settings)
+# =============================================================================
+
+
+# =============================================================================
+# PYTHON
+# =============================================================================
+
+# Virtual environment folders
+# These contain installed packages - can be recreated with: pip install -r requirements.txt
+venv/
+env/
+.venv/
+.env/
+ENV/
+
+# Python cache files
+# Created automatically when Python runs - safe to ignore
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+
+# =============================================================================
+# DATABASE
+# =============================================================================
+
+# SQLite database files
+# These are created when you run the app - each student will have their own
+*.db
+*.sqlite
+*.sqlite3
+
+# Flask instance folder (contains database)
+instance/
+
+
+# =============================================================================
+# ENVIRONMENT & SECRETS
+# =============================================================================
+
+# Environment variables file
+# NEVER commit this - contains passwords and secret keys!
+.env
+.env.local
+.env.production
+*.env
+
+# Secret key files
+secret_key.txt
+secrets.json
+
+
+# =============================================================================
+# IDE & EDITOR
+# =============================================================================
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+
+# =============================================================================
+# LOGS & TEMPORARY FILES
+# =============================================================================
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+
+# =============================================================================
+# NOTES FOR STUDENTS
+# =============================================================================
+#
+# WHY IGNORE THESE FILES?
+#
+# 1. venv/ - Virtual environments are large (100+ MB) and can be recreated
+#    with: pip install -r requirements.txt
+#
+# 2. __pycache__/ - Python automatically creates these when running code.
+#    They speed up imports but aren't needed in Git.
+#
+# 3. *.db - Database files contain your test data. Each person should have
+#    their own database, not share one through Git.
+#
+# 4. instance/ - Flask creates this folder for the database. Same reason
+#    as above - each person has their own.
+#
+# 5. .env - Contains secret keys and passwords. NEVER commit secrets to Git!
+#    If you accidentally commit a secret, consider it compromised and change it.
+#
+# 6. .vscode/, .idea/ - These contain YOUR editor settings. Other students
+#    might use different editors.
+#
+# =============================================================================
