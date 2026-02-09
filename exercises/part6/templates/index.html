@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App - Part 6</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Todo App</a>
+            <div class="navbar-nav flex-row gap-3" id="nav-links"></div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Part 6: Protected Routes</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5>What's new in this part?</h5>
+                        <ul>
+                            <li><strong>@token_required decorator</strong> - Protects API routes</li>
+                            <li><strong>Authorization header</strong> - "Bearer token" sent with requests</li>
+                            <li><strong>Ownership verification</strong> - Users can only access their own todos</li>
+                        </ul>
+
+                        <hr>
+
+                        <h5>How @token_required works:</h5>
+                        <pre class="bg-dark text-light p-3 rounded">
+# Without protection (Part 5):
+@app.route('/api/todos')
+def get_todos():
+    user_id = request.args.get('user_id')  # Anyone can change this!
+    ...
+
+# With protection (Part 6):
+@app.route('/api/todos')
+@token_required
+def get_todos(current_user):  # User comes from token!
+    todos = Todo.query.filter_by(user_id=current_user.id).all()
+    ...
+</pre>
+
+                        <hr>
+                        <div id="action-buttons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        const navLinks = document.getElementById('nav-links');
+        const actionButtons = document.getElementById('action-buttons');
+
+        if (token && user) {
+            navLinks.innerHTML = `
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+                <a class="nav-link" href="#" onclick="logout()">Logout</a>
+            `;
+            actionButtons.innerHTML = `
+                <div class="alert alert-success">Welcome back, ${user.username}!</div>
+                <a href="/dashboard" class="btn btn-success btn-lg">Go to Dashboard</a>
+            `;
+        } else {
+            navLinks.innerHTML = `
+                <a class="nav-link" href="/login">Login</a>
+                <a class="nav-link" href="/register">Register</a>
+            `;
+            actionButtons.innerHTML = `
+                <a href="/register" class="btn btn-success btn-lg me-2">Register</a>
+                <a href="/login" class="btn btn-primary btn-lg">Login</a>
+            `;
+        }
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+    </script>
+</body>
+</html>

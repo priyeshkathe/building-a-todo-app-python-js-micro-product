@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App - Part 5</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Todo App</a>
+            <div class="navbar-nav flex-row gap-3" id="nav-links"></div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Part 5: Todo CRUD</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5>What's new in this part?</h5>
+                        <ul>
+                            <li><strong>CREATE</strong> - Add new todos (POST /api/todos)</li>
+                            <li><strong>READ</strong> - Get all todos (GET /api/todos)</li>
+                            <li><strong>UPDATE</strong> - Edit/complete todos (PUT /api/todos/:id)</li>
+                            <li><strong>DELETE</strong> - Remove todos (DELETE /api/todos/:id)</li>
+                        </ul>
+
+                        <hr>
+
+                        <div class="alert alert-warning">
+                            <strong>Security Note:</strong> In this part, there's no authentication
+                            on todo routes. Anyone could access anyone's todos by changing user_id!
+                            We'll fix this in Part 6.
+                        </div>
+
+                        <hr>
+                        <div id="action-buttons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        const navLinks = document.getElementById('nav-links');
+        const actionButtons = document.getElementById('action-buttons');
+
+        if (token && user) {
+            navLinks.innerHTML = `
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+                <a class="nav-link" href="#" onclick="logout()">Logout</a>
+            `;
+            actionButtons.innerHTML = `
+                <div class="alert alert-success">Welcome back, ${user.username}!</div>
+                <a href="/dashboard" class="btn btn-success btn-lg">Go to Dashboard</a>
+            `;
+        } else {
+            navLinks.innerHTML = `
+                <a class="nav-link" href="/login">Login</a>
+                <a class="nav-link" href="/register">Register</a>
+            `;
+            actionButtons.innerHTML = `
+                <a href="/register" class="btn btn-success btn-lg me-2">Register</a>
+                <a href="/login" class="btn btn-primary btn-lg">Login</a>
+            `;
+        }
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+    </script>
+</body>
+</html>

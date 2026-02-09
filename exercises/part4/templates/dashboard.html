@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Todo App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Todo App</a>
+            <div class="navbar-nav flex-row gap-3">
+                <span class="navbar-text" id="user-info"></span>
+                <a class="nav-link" href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0">Dashboard</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5>You are logged in!</h5>
+                        <p class="text-muted">This page is only visible to logged-in users.</p>
+
+                        <hr>
+
+                        <h6>Your Info:</h6>
+                        <div id="user-details" class="bg-light p-3 rounded text-start">
+                            Loading...
+                        </div>
+
+                        <hr>
+
+                        <h6>Your Token:</h6>
+                        <div class="bg-dark text-light p-3 rounded text-start" style="word-break: break-all; font-size: 12px;">
+                            <code id="token-display"></code>
+                        </div>
+                        <small class="text-muted">This token is sent with every API request to prove you're logged in.</small>
+
+                        <hr>
+                        <p class="text-muted">
+                            In the next part, we'll add Todo CRUD operations!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        console.log('User from localStorage:', user);
+        if (!token || !user) {
+            // Not logged in, redirect to login
+            window.location.href = '/login';
+        } else {
+            // Show user info
+            document.getElementById('user-info').textContent = `Hello, ${user.username}`;
+
+            document.getElementById('user-details').innerHTML = `
+                <p><strong>ID:</strong> ${user.id}</p>
+                <p><strong>Username:</strong> ${user.username}</p>
+                <p><strong>Email:</strong> ${user.email}</p>
+                <p><strong>Admin:</strong> ${user.is_admin ? 'Yes' : 'No'}</p>
+            `;
+
+            document.getElementById('token-display').textContent = token;
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
