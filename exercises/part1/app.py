@@ -41,13 +41,20 @@ def contact():
 def services():
     return render_template("services.html")
 
+@app.route("/hello")
+def hello():
+    return "Server is Running Succesfully"
+
+@app.route("/hello/<name>")
+def hello_name(name):
+    return f"Hello, {name}"
 
 if __name__ == '__main__':
     print("\n" + "="*50)
     print("  Part 1: Hello Flask")
-    print("  Open: http://127.0.0.1:5000")
+    print("  Open: http://127.0.0.1:8000")
     print("="*50 + "\n")
-    app.run(debug=True)
+    app.run(debug=True,port=8000)
 
 
 
