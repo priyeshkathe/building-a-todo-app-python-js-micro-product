@@ -23,6 +23,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
+    phone = db.Column(db.String(20))    
     is_admin = db.Column(db.Boolean, default=False)
 
     # Relationship: One user can have many todos

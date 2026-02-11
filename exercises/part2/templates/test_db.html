@@ -23,7 +23,63 @@
                     <p class="mb-0">Data is being stored in <code>instance/todo.db</code></p>
                 </div>
 
-                <!-- Users Table -->
+                <!-- ACTIVITY 2 & 4: QUERY PRACTICE & BULK DATA SECTION -->
+                <div class="card shadow mb-4 border-primary">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">📚 Activity 2 & 4: Query Practice + Bulk Test Data</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Query 1: count() -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Query 1: User.query.count()</h6>
+                                        <p class="card-text text-muted">Counts total users</p>
+                                        <h2 class="text-primary">{{ total_users }}</h2>
+                                        <small class="text-muted">Total User(s)</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Query 2: first() -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Query 2: User.query.first()</h6>
+                                        <p class="card-text text-muted">Gets first user</p>
+                                        {% if first_user %}
+                                        <p class="mb-1"><strong>{{ first_user.username }}</strong></p>
+                                        <small class="text-muted">{{ first_user.email }}</small>
+                                        {% else %}
+                                        <p class="text-danger">No user found</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Query 3: all() -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Query 3: User.query.all()</h6>
+                                        <p class="card-text text-muted">Gets all users</p>
+                                        <h2 class="text-success">{{ query_all_users|length }}</h2>
+                                        <small class="text-muted">User(s) Retrieved</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Activity 4 Summary -->
+                        <div class="alert alert-info mt-3 mb-0">
+                            <h6 class="alert-heading">🎯 Activity 4: Bulk Test Data Created</h6>
+                            <p class="mb-2"><strong>✅ 3 Users Created:</strong> testuser, john, jane</p>
+                            <p class="mb-2"><strong>✅ Total Todos:</strong> {{ todos|length }} todos across all users</p>
+                            <p class="mt-2 mb-0 text-muted"><small>This demonstrates how to create multiple records and their relationships in a database.</small></p>
+                        </div>
+                    </div>
+                </div>
                 <div class="card shadow mb-4">
                     <div class="card-header bg-info text-white">
                         <h5 class="mb-0">Users Table</h5>
@@ -35,6 +91,7 @@
                                     <th>ID</th>
                                     <th>Username</th>
                                     <th>Email</th>
+                                    <th>Phone</th>
                                     <th>Is Admin</th>
                                     <th>Todo Count</th>
                                 </tr>
@@ -45,6 +102,7 @@
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.username }}</td>
                                     <td>{{ user.email }}</td>
+                                    <td>{{ user.phone or 'N/A' }}</td>
                                     <td>{{ user.is_admin }}</td>
                                     <td>{{ user.todos|length }}</td>
                                 </tr>
