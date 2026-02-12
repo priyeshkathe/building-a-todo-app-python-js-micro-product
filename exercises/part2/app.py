@@ -16,6 +16,10 @@ app = Flask(__name__)
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'connect_args': {'timeout': 10},  # 10 second timeout for database locks
+    'pool_pre_ping': True,  # Test connections before using them
+}
 
 # Initialize the database
 init_db(app)
@@ -34,53 +38,59 @@ def test_db():
     Test route to verify database is working.
     ACTIVITY 4: Creates 3 users with multiple todos each.
     """
-    # ACTIVITY 4: Create 3 Users with Different Todos
-    users_data = [
-        {
-            'username': 'testuser',
-            'email': 'test@example.com',
-            'phone': '+1-234-567-8900',
-            'todos': ['Learn SQLAlchemy', 'Build a Todo App']
-        },
-        {
-            'username': 'john',
-            'email': 'john@example.com',
-            'phone': '+1-555-1111',
-            'todos': ['Study Python', 'Learn Flask', 'Practice Databases']
-        },
-        {
-            'username': 'priyesh',
-            'email': 'priyesh@example.com',
-            'phone': '+1-555-2222',
-            'todos': ['Plan Project', 'Write Tests', 'Deploy App']
-        }
-    ]
-    
-    # Create users and their todos if they don't exist
-    for user_data in users_data:
-        # Check if user exists
-        user = User.query.filter_by(username=user_data['username']).first()
+    try:
+        # ACTIVITY 4: Create 3 Users with Different Todos
+        users_data = [
+            {
+                'username': 'testuser',
+                'email': 'test@example.com',
+                'phone': '+1-234-567-8900',
+                'todos': ['Learn SQLAlchemy', 'Build a Todo App']
+            },
+            {
+                'username': 'john',
+                'email': 'john@example.com',
+                'phone': '+1-555-1111',
+                'todos': ['Study Python', 'Learn Flask', 'Practice Databases']
+            },
+            {
+                'username': 'priyesh',
+                'email': 'priyesh@example.com',
+                'phone': '+1-555-2222',
+                'todos': ['Plan Project', 'Write Tests', 'Deploy App']
+            }
+        ]
         
-        if not user:
+        # Create all users and todos in ONE transaction
+        for user_data in users_data:
+            # Check if user exists
+            user = User.query.filter_by(username=user_data['username']).first()
             
-            user = User(
-                username=user_data['username'],
-                email=user_data['email'],
-                password_hash='temporary',
-                phone=user_data['phone']
-            )
-            db.session.add(user)
-            db.session.commit()  
-            
-            # Create todos for this user
-            for todo_content in user_data['todos']:
-                todo = Todo(
-                    task_content=todo_content,
-                    user_id=user.id
+            if not user:
+                # Create user
+                user = User(
+                    username=user_data['username'],
+                    email=user_data['email'],
+                    password_hash='temporary',
+                    phone=user_data['phone']
                 )
-                db.session.add(todo)
-            
-            db.session.commit()  # Commit all todos
+                db.session.add(user)
+                db.session.flush()  # Get the ID without committing
+                
+                # Create todos for this user
+                for todo_content in user_data['todos']:
+                    todo = Todo(
+                        task_content=todo_content,
+                        user_id=user.id
+                    )
+                    db.session.add(todo)
+        
+        # Commit ONCE after adding everything
+        db.session.commit()
+        
+    except Exception as e:
+        db.session.rollback()  # Rollback on error
+        print(f"Error creating test data: {e}")
    
     # Get all users and todos for display
     all_users = User.query.all()

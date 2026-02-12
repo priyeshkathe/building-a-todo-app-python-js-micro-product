@@ -8,6 +8,7 @@
 #   3. How to save user to database
 # =============================================================================
 
+import email
 from flask import Flask, render_template, request, jsonify
 from models import db, User, init_db
 
@@ -70,12 +71,27 @@ def api_register():
     if not username:
         print('username is missing')
         return jsonify({'error': 'Username is required'}), 400
+    
+    # Username format validation
+    if not username.isalnum():
+        return jsonify({'error': 'Username must contain only letters and numbers'}), 400
+
     if not email:
         print('email is missing')
         return jsonify({'error': 'Email is required'}), 400
+    
+    # Email format validation
+    if '@' not in email:
+        return jsonify({'error': 'Invalid email format'}), 400
+
     if not password:
         print('password is missing')
         return jsonify({'error': 'Password is required'}), 400
+    
+    # Password length validation
+    if len(password) < 6:
+        return jsonify({'error': 'Password must be at least 6 characters long'}), 400
+
 
     # Check if user already exists
     if User.query.filter_by(email=email).first():
@@ -85,12 +101,10 @@ def api_register():
         return jsonify({'error': 'Username already taken'}), 400
 
     # Create new user
-    # NOTE: We're storing password directly here (NOT secure!)
-    # We'll add proper password hashing in Part 4
     new_user = User(
         username=username,
         email=email,
-        password_hash=password  # This will be fixed in Part 4
+        password_hash=password   
     )
 
     db.session.add(new_user)
@@ -99,9 +113,7 @@ def api_register():
     return jsonify({'message': 'Registration successful!'}), 201
 
 
-# =============================================================================
 # RUN THE SERVER
-# =============================================================================
 if __name__ == '__main__':
     print("\n" + "="*50)
     print("  Part 3: User Registration")
@@ -110,34 +122,6 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-# ============================================
-# SELF-STUDY QUESTIONS
-# ============================================
-# 1. What is the difference between GET and POST request?
-# 2. What does request.get_json() return?
-# 3. Why do we check if email already exists before creating user?
-# 4. What does status code 201 mean? What about 400?
-# 5. Why is storing plain password dangerous? (Check /users page to see!)
-#
-# ============================================
-# ACTIVITIES - Try These!
-# ============================================
-# Activity 1: Add password validation
-#   - Before creating user, check if password length < 6
-#   - Return error if password is too short
-#   - Hint: if len(password) < 6: return jsonify({'error': '...'}), 400
-#
-# Activity 2: Add username validation
-#   - Check if username contains only letters and numbers
-#   - Hint: use username.isalnum()
-#
-# Activity 3: See the security problem
-#   - Register a new user with password "secret123"
-#   - Go to /users page
-#   - Notice how you can see the password! (This is bad!)
-#   - We'll fix this in Part 4
-#
-# Activity 4: Add email format check
-#   - Check if email contains '@' symbol
-#   - Return error if email format is invalid
-# ============================================
+
+
+

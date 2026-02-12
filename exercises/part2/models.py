@@ -58,4 +58,13 @@ def init_db(app):
     """Connect database to Flask app and create tables."""
     db.init_app(app)
     with app.app_context():
+        # Enable WAL mode for better concurrent access and fix locking issues
+        from sqlalchemy import text
+        try:
+            db.session.execute(text('PRAGMA journal_mode=WAL'))
+            db.session.execute(text('PRAGMA timeout=5000'))  # 5 second timeout
+            db.session.commit()
+        except:
+            pass  # Database might not exist yet
+        
         db.create_all()
